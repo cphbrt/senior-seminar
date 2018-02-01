@@ -20,3 +20,10 @@ The completed application will allow Dr. Randrianasolo to:
 2. Static UI components (appearance, graphics, colors, formatting)
 3. Prediction algorithm
 4. Loading/Storing/Importing/Exporting courses and their degree plan relationships
+
+## Install and Run
+
+```
+npm install
+npm start
+```
