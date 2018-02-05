@@ -27,3 +27,15 @@ The completed application will allow Dr. Randrianasolo to:
 npm install
 npm start
 ```
+## Build for Distribution
+
+Get [Electron Packager](https://www.npmjs.com/package/electron-packager):
+``` 
+# for use from cli 
+npm install electron-packager -g
+```
+
+Inside repository:
+```
+electron-packager .
+```
