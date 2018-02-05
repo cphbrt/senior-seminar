@@ -1,21 +1,12 @@
 {
-  "name": "electron-quick-start",
+  "name": "SeniorSeminar",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "For Project 1's Senior Seminar project",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "repository": "https://github.com/cphbrt/senior-seminar.git",
   "devDependencies": {
     "electron": "~1.7.8"
   }
