@@ -10,9 +10,9 @@
 
     <div>
       <p> Course Title: </p>
-      <input type="text" placeholder=""></input> <br>
+      <input type="text" placeholder="Intro to Comp Sci"></input> <br>
       <p> Course Identifier: </p>
-      <input type="text" placeholder=""></input> <br>
+      <input type="text" placeholder="CS 1122"></input> <br>
     </div>
 
     <div>
@@ -24,6 +24,10 @@
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
+
+
+      console.log(require('electron').remote.getGlobal('course').title);
+      console.log(require('electron').remote.getGlobal('course').ident);
     </script>
   </body>
 </html>
