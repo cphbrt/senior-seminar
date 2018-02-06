@@ -10,6 +10,11 @@
 
     <div>
     Course List
+    <ul>
+      <li><a href="edit_course.html" onclick='editCourse("Intro to Comp Sci", "CS 1122")'><strong> Intro to Comp Sci </strong> CS 1122 </a></li>
+      <li><strong> Intro. to Prog. </strong> CS 1213 </li>
+      <li><strong> OO Design & Prog. </strong> CS 1233 </li>
+    <ul>
     </div>
 
     <div>
@@ -19,6 +24,19 @@
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
+      const path = require('path')
+      const url = require('url')
+
+      function editCourse(title, ident)
+      {
+        console.log("HALP");
+        courseObject = require('electron').remote.getGlobal('course');
+        courseObject.title = title;
+        courseObject.ident = ident;
+
+        window = require('electron').remote.getCurrentWindow();
+        return true;
+      }
     </script>
   </body>
 </html>
