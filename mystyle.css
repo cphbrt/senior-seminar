@@ -1,0 +1,65 @@
+.column {
+    float: left;
+    width: 10%;
+	outline-style: solid;
+	text-align: center;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+	padding: 5px;
+}
+
+h1 {
+	color: black;
+
+}
+h1 span {
+	background-color: ;
+}
+
+body {
+	background-color: white;
+}
+
+.course {
+
+/* probably throw away when electron ribbon implemented*/
+
+}
+a {
+	text-decoration: none;
+	color: #D83F87;
+}
+
+a:link {
+
+}
+
+a:visited {
+
+}
+
+a:hover {
+	
+}
+
+a:active {
+
+}
+
+ul {
+	list-style: none;
+}
+
+.nav {
+
+}
+.nav:hover {
+		font-size: large;
+}
+
+
+
