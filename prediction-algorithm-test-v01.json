@@ -1,0 +1,51 @@
+{
+    "course_ids" : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+    "degree_plans": [
+        {
+            "degree_plan_id" : 1,
+            "semesters" : [
+                [1, 2],
+                [3, 4],
+                [5, 6],
+                [7, 8]
+            ]
+        },
+        {
+            "degree_plan_id" : 2,
+            "semesters" : [
+                [3, 5],
+                [7, 1],
+                [9, 10],
+                [2, 6]
+            ]
+        }
+    ],
+    "enrollments" : [
+        {
+            "degree_plan_id" : 1,
+            "enrollments_descending_semesters" : [
+                12,
+                10,
+                14,
+                18,
+                22,
+                8,
+                13,
+                17
+            ]
+        },
+        {
+            "degree_plan_id" : 2,
+            "enrollments_descending_semesters" : [
+                91,
+                87,
+                78,
+                96,
+                105,
+                34,
+                64,
+                17
+            ]
+        }
+    ]
+}
