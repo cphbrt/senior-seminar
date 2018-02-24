@@ -14,7 +14,19 @@ function testPredict( input ) {
     var degree_plans = input.degree_plans;
     var enrollments = input.enrollments;
     
+    console.log(course_ids);
+    console.log(degree_plans);
+    console.log(enrollments);
+    console.log("##########################################################\n");
+    
     var result = predict( course_ids, degree_plans, enrollments );
-    console.log(result);
+    
+    // print result data
+    for(var iteration=0 ; iteration < result.length; iteration++) {
+        console.log("\nITERATION " + iteration + "\n");
+        for(var id in result[iteration]) {
+            console.log("id: "+id + ", sum: "+result[iteration][id]);
+        }
+    }
 }
 testPredict(input);
