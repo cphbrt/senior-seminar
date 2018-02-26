@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Courses</title>
+    <script src="scripts/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
   </head>
   <body>
     <a href="index.html">Back to Index</a>
@@ -10,33 +11,41 @@
 
     <div>
     Course List
-    <ul>
-      <li><a href="edit_course.html" onclick='editCourse("Intro to Comp Sci", "CS 1122")'><strong> Intro to Comp Sci </strong> CS 1122 </a></li>
-      <li><strong> Intro. to Prog. </strong> CS 1213 </li>
-      <li><strong> OO Design & Prog. </strong> CS 1233 </li>
+    <ul id="class_list">
     <ul>
     </div>
 
     <div>
-      <a href="edit_course.html"><button>Create </button></a>
+      <a href="create_course.html"><button>Create </button></a>
     </div>
 
     <script>
       // You can also require other files to run in this process
-      require('./renderer.js')
-      const path = require('path')
-      const url = require('url')
+      require('./renderer.js');
 
-      function editCourse(title, ident)
-      {
-        console.log("HALP");
-        courseObject = require('electron').remote.getGlobal('course');
-        courseObject.title = title;
-        courseObject.ident = ident;
+      var storage = require("./storage");
+      $( document ).ready(function() {
+        // insert list of courses
+        storage.readData("data.json", function(obj) {
+          list = $("#class_list");
+          class_list = obj.class_list;
+          for(key in class_list)
+          {
+            c = class_list[key];
+            item = $('<li><strong>' + c.name + '</strong>  ' + c.ident + '</li>');
+            //console.log("key: " + key + " ident: " + c.ident);
+            item.data('ident', c.ident);
+            item.click(function(){
+              console.log($(this).data('ident'));
+              require('electron').remote.getGlobal('course').ident = $(this).data('ident');
+              window.location.href = 'edit_course.html';
+            });
+            list.append(item);
 
-        window = require('electron').remote.getCurrentWindow();
-        return true;
-      }
+          }
+
+        });
+      });
     </script>
   </body>
 </html>

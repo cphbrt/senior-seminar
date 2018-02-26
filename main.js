@@ -12,7 +12,6 @@ const url = require('url')
 let mainWindow
 
 global.course = {
-  title: '',
   ident: ''
 }
 
