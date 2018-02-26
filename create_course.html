@@ -2,12 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Edit Course</title>
+    <title>Create Course</title>
     <script src="scripts/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
   </head>
   <body>
     <a href="courses.html">Back to Courses</a>
-    <h1>Edit Courses</h1>
+    <h1>Create Courses</h1>
 
     <div>
       <p> Course Title: </p>
@@ -19,26 +19,14 @@
     <div>
       <button id="save">Save</button>
       <a href="courses.html"><button>Cancel</button></a>
-      <button id="delete">Delete</button>
     </div>
 
     <script>
       // You can also require other files to run in this process
       require('./renderer.js');
+
       var storage = require("./storage");
       $( document ).ready(function() {
-        selected = require('electron').remote.getGlobal('course').ident;
-        console.log('selected: ' + selected);
-        if(selected != '')
-        {
-          storage.readData("data.json", function(obj){
-            course = storage.get(obj, selected);
-            $("#name").val(course.name);
-            $("#ident").val(course.ident);
-          });
-
-        }
-
         $("#save").click(function(){
           name = $("#name").val();
           ident = $("#ident").val();
@@ -46,22 +34,13 @@
           if(name != "" && ident != "") // validate
           {
             storage.readData("data.json", function(obj){
-              storage.update(obj, selected, name, ident, []);
+              storage.update(obj, name, name, ident, []);
               storage.saveData("data.json", obj, function(){
                 window.location.href = 'courses.html';
               });
             });
 
           }
-        });
-
-        $("#delete").click(function() {
-          storage.readData("data.json", function(obj){
-            storage.remove(obj, selected);
-            storage.saveData("data.json", obj, function(){
-              window.location.href = 'courses.html';
-            });
-          });
         });
       });
 
