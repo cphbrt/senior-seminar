@@ -14,6 +14,14 @@
       <input id="name" type="text" placeholder="Intro to Comp Sci"></input> <br>
       <p> Course Identifier: </p>
       <input id="ident" type="text" placeholder="CS 1122"></input> <br>
+
+      <p> Prereqs </p>
+      <ul id="prereqs">
+      </ul>
+
+      <p> Unselected Prereqs </p>
+      <ul id="unselected">
+      </ul>
     </div>
 
     <div>
@@ -26,6 +34,7 @@
       // You can also require other files to run in this process
       require('./renderer.js');
       var storage = require("./storage");
+      var prereqArray = [];
       $( document ).ready(function() {
         selected = require('electron').remote.getGlobal('course').ident;
         console.log('selected: ' + selected);
@@ -35,6 +44,70 @@
             course = storage.get(obj, selected);
             $("#name").val(course.name);
             $("#ident").val(course.ident);
+
+            prereqs = $("#prereqs");
+            unselected = $("#unselected");
+            class_list = obj.class_list;
+            for(key in class_list)
+            {
+              c = class_list[key];
+              if(c.ident != selected)
+              {
+                html = '<li><strong>' + c.name + '</strong>  ' + c.ident + '</li>';
+                s_item = $(html);
+                u_item = $(html);
+                s_item.data('ident', c.ident);
+                s_item.click(function(){
+                  s_item.hide();
+                  u_item.show();
+
+                  ident = $(this).data('ident');
+                  for(var i = 0; i < prereqArray.length; i++)
+                  {
+                    if(s == ident)
+                    {
+                      prereqArray.splice(i, 1);
+                      break;
+
+                    }
+
+                  }
+
+                });
+
+                u_item.data('ident', c.ident);
+                u_item.click(function() {
+                  u_item.hide();
+                  s_item.show();
+
+                  ident = $(this).data('ident');
+                  prereqArray.push(ident);
+                })
+
+                class_prereq = course.prereq;
+                found = false;
+                for(key2 in class_prereq) {
+                  ident = class_prereq[key2];
+                  if(ident == c.ident)
+                  {
+                    found = true;
+                    u_item.hide();
+                    break;
+
+                  }
+
+                }
+                if(!found)
+                {
+                  s_item.hide();
+                }
+
+                prereqs.append(s_item);
+                unselected.append(u_item);
+              }
+
+            }
+
           });
 
         }
@@ -46,7 +119,7 @@
           if(name != "" && ident != "") // validate
           {
             storage.readData("data.json", function(obj){
-              storage.update(obj, selected, name, ident, []);
+              storage.update(obj, selected, name, ident, prereqArray);
               storage.saveData("data.json", obj, function(){
                 window.location.href = 'courses.html';
               });
