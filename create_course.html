@@ -46,15 +46,19 @@
             html = '<li><strong>' + c.name + '</strong>  ' + c.ident + '</li>';
             s_item = $(html);
             u_item = $(html);
+            s_item.data("other", u_item);
+            u_item.data("other", s_item);
             s_item.data('ident', c.ident);
             s_item.click(function(){
-              s_item.hide();
+              $(this).hide();
+              u_item = $(this).data("other");
               u_item.show();
 
               ident = $(this).data('ident');
               for(var i = 0; i < prereqArray.length; i++)
               {
-                if(s == ident)
+                s = prereqArray[i];
+                if(s.toLowerCase() == ident.toLowerCase())
                 {
                   prereqArray.splice(i, 1);
                   break;
@@ -67,12 +71,13 @@
 
             u_item.data('ident', c.ident);
             u_item.click(function() {
-              u_item.hide();
+              $(this).hide();
+              s_item = $(this).data("other");
               s_item.show();
 
               ident = $(this).data('ident');
               prereqArray.push(ident);
-            })
+            });
 
             s_item.hide();
 
