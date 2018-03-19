@@ -37,7 +37,7 @@ saveData: function(path, obj, callback)
   });
 },
 
-get: function(obj, ident)
+getClass: function(obj, ident)
 {
   class_list = obj.class_list;
   for(key in class_list)
@@ -54,14 +54,14 @@ get: function(obj, ident)
 
 },
 
-exists: function(obj, ident)
+classExists: function(obj, ident)
 {
-  return get(obj, ident) != null;
+  return getClass(obj, ident) != null;
 
 },
 
 //insert or overwrite. set oldident to ident if creating new
-update: function(obj, oldident, name, ident, prereq)
+updateClass: function(obj, oldident, name, ident, prereq)
 {
   class_list = obj.class_list;
   for(key in class_list)
@@ -82,7 +82,7 @@ update: function(obj, oldident, name, ident, prereq)
 
 },
 
-remove: function(obj, ident)
+removeClass: function(obj, ident)
 {
   class_list = obj.class_list;
   nclass_list = [];
@@ -97,6 +97,61 @@ remove: function(obj, ident)
   }
 
   obj.class_list = nclass_list;
+
+},
+
+getPlan: function(obj, name)
+{
+  plan_list = obj.plan_list;
+  for(key in plan_list)
+  {
+    p = plan_list[key];
+    if(p.name.toLowerCase() == name.toLowerCase())
+    {
+      return p;
+    }
+
+  }
+
+  return null;
+
+},
+
+//insert or overwrite. set oldident to ident if creating new
+updatePlan: function(obj, oldname, name, semesters)
+{
+  plan_list = obj.plan_list;
+  for(key in plan_list)
+  {
+    p = plan_list[key];
+    if(p.name.toLowerCase() == oldname.toLowerCase())
+    {
+      p.name = name;
+      return;
+
+    }
+
+  }
+
+  obj.plan_list.push({"name": name, semesters});
+
+},
+
+removePlan: function(obj, name)
+{
+  plan_list = obj.plan_list;
+  nplan_list = [];
+  for(key in plan_list)
+  {
+    p = plan_list[key];
+    if(p.name.toLowerCase() != name.toLowerCase())
+    {
+      nplan_list.push(p);
+    }
+
+  }
+
+  obj.plan_list = nplan_list;
 
 }
 

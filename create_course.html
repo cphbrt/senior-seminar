@@ -91,7 +91,7 @@
           if(name != "" && ident != "") // validate
           {
             storage.readData("data.json", function(obj){
-              storage.update(obj, name, name, ident, prereqArray);
+              storage.updateClass(obj, name, name, ident, prereqArray);
               storage.saveData("data.json", obj, function(){
                 window.location.href = 'courses.html';
               });
