@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Create Plan</title>
+    <script src="scripts/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+  </head>
+  <body>
+    <a href="degree-plans.html">Back to Plans</a>
+    <h1>Create Plan</h1>
+
+    <div>
+      <p> Plan Name: </p>
+      <input id="name" type="text" placeholder="Computer Science"></input>
+
+      <div>
+      <p> Add Course To Semester <p>
+      <select id="semester_select">
+        <option value="semester-1">Semester 1</option>
+        <option value="semester-2">Semester 2</option>
+        <option value="semester-3">Semester 3</option>
+        <option value="semester-4">Semester 4</option>
+        <option value="semester-5">Semester 5</option>
+        <option value="semester-6">Semester 6</option>
+        <option value="semester-7">Semester 7</option>
+        <option value="semester-8">Semester 8</option>
+      </select>
+      <select id="course_select">
+      </select>
+      <button id="add_course"> Add </button>
+      </div>
+
+      <p> Semester 1 </p>
+      <ul id="semester-1">
+      </ul>
+
+      <p> Semester 2 </p>
+      <ul id="semester-2">
+      </ul>
+
+      <p> Semester 3 </p>
+      <ul id="semester-3">
+      </ul>
+
+      <p> Semester 4 </p>
+      <ul id="semester-4">
+      </ul>
+
+      <p> Semester 5 </p>
+      <ul id="semester-5">
+      </ul>
+
+      <p> Semester 6 </p>
+      <ul id="semester-6">
+      </ul>
+
+      <p> Semester 7 </p>
+      <ul id="semester-7">
+      </ul>
+
+      <p> Semester 8 </p>
+      <ul id="semester-8">
+      </ul>
+    </div>
+
+    <div>
+      <button id="save">Save</button>
+      <a href="degree-plans.html"><button>Cancel</button></a>
+    </div>
+
+    <script>
+      require('./renderer.js');
+      var storage = require("./storage");
+
+      semesters = {};
+
+      course_list = null;
+      $(document).ready(function() {
+        for(var i = 1; i < 10; i++)
+        {
+          semesters["semester-" + i] = [];
+
+        }
+
+        storage.readData("data.json", function(obj){
+          course_list = obj.class_list;
+
+          semester_select = $("#semester_select");
+          semester_select.change(function() {
+            semester = $("option:selected" ,this).val();
+            course_select = $("#course_select");
+            course_select.empty();
+
+            //TODO: make this eliminate classes that the prereqs for aren't present in a previous semester
+            for(key in course_list) {
+              c = course_list[key];
+              found = false;
+              for(semester_key in semesters)
+              {
+                semester_obj = semesters[semester_key];
+                for(ident_key in semester_obj)
+                {
+                  ident = semester_obj[ident_key];
+                  if(ident.toLowerCase() == c.ident.toLowerCase())
+                  {
+                    found = true;
+                    break;
+
+                  }
+
+                }
+              }
+
+              if(!found)
+              {
+                item = $("<option/>", { value: c.ident,
+                  html: c.ident });
+                course_select.append(item);
+              }
+
+            }
+          });
+          semester_select.change();
+
+          add_course = $("#add_course");
+          add_course.click(function() {
+            semester_select = $("#semester_select");
+            semester = $("option:selected", semester_select).val();
+            course_select = $("#course_select");
+            ident = $("option:selected", course_select).val();
+            if(ident)
+            {
+              semester_ul_id = "#" + semester;
+              semester_ul = $(semester_ul_id);
+              item = $('<li>' + ident + '</li>');
+              item.data("ident", ident);
+              item.data("semester", semester);
+              item.click(function() {
+                ident = $(this).data("ident");
+                semester = $(this).data("semester");
+                removeIdent(semester, ident);
+                $(this).remove();
+              });
+              semester_ul.append(item);
+              semesters[semester].push(ident);
+              semester_select.change();
+            }
+          });
+        });
+
+        $("#save").click(function(){
+          name = $("#name").val();
+
+          if(name != "") // validate
+          {
+            storage.readData("data.json", function(obj){
+              storage.updatePlan(obj, name, name, semesters);
+              storage.saveData("data.json", obj, function(){
+                window.location.href = 'degree-plans.html';
+              });
+            });
+
+          }
+        });
+
+      });
+
+      function removeIdent(semester, ident)
+      {
+        semester_obj = semesters[semester];
+        for(var i = 0; i < semester_obj.length; i++)
+        {
+          s = semester_obj[i];
+          if(s.toLowerCase() == ident.toLowerCase())
+          {
+            semester_obj.splice(i, 1);
+            semester_select = $("#semester_select");
+            semester_select.change();
+            break;
+
+          }
+
+        }
+
+      }
+    </script>
+  </body>
+</html>

@@ -3,13 +3,40 @@
   <head>
     <meta charset="UTF-8">
     <title>Degree Plans</title>
+    <script src="scripts/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
   </head>
   <body>
     <a href="index.html">Back to Index</a>
     <h1>Degree Plans</h1>
+    <div>
+      Degree Plan List
+    <ul id="plan_list">
+    <ul>
+    </div>
+    <div>
+      <a href="create_plan.html"><button> Create</button></a>
+    </div>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
+
+      var storage = require("./storage");
+      $(document).ready(function() {
+        storage.readData("data.json", function(obj) {
+          list = $("#plan_list");
+          plan_list = obj.plan_list;
+          for(key in plan_list) {
+            p = plan_list[key];
+            item = $("<li><strong>" + p.name + "</strong></li>");
+            item.data("name", p.name);
+            item.click(function(){
+              require('electron').remote.getGlobal('params').name = $(this).data('name');
+              window.location.href = 'edit_plan.html';
+            });
+            list.append(item);
+          }
+        });
+      });
     </script>
   </body>
 </html>

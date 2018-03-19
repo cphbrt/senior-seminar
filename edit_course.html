@@ -36,12 +36,12 @@
       var storage = require("./storage");
       var prereqArray = [];
       $( document ).ready(function() {
-        selected = require('electron').remote.getGlobal('course').ident;
+        selected = require('electron').remote.getGlobal('params').name;
         console.log('selected: ' + selected);
         if(selected != '')
         {
           storage.readData("data.json", function(obj){
-            course = storage.get(obj, selected);
+            course = storage.getClass(obj, selected);
             $("#name").val(course.name);
             $("#ident").val(course.ident);
 
@@ -64,7 +64,8 @@
                   ident = $(this).data('ident');
                   for(var i = 0; i < prereqArray.length; i++)
                   {
-                    if(s == ident)
+                    s = prereqArray[i];
+                    if(s.toLowerCase() == ident.toLowerCase())
                     {
                       prereqArray.splice(i, 1);
                       break;
@@ -119,7 +120,7 @@
           if(name != "" && ident != "") // validate
           {
             storage.readData("data.json", function(obj){
-              storage.update(obj, selected, name, ident, prereqArray);
+              storage.updateClass(obj, selected, name, ident, prereqArray);
               storage.saveData("data.json", obj, function(){
                 window.location.href = 'courses.html';
               });
@@ -130,7 +131,7 @@
 
         $("#delete").click(function() {
           storage.readData("data.json", function(obj){
-            storage.remove(obj, selected);
+            storage.removeClass(obj, selected);
             storage.saveData("data.json", obj, function(){
               window.location.href = 'courses.html';
             });

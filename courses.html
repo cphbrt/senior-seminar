@@ -36,8 +36,7 @@
             //console.log("key: " + key + " ident: " + c.ident);
             item.data('ident', c.ident);
             item.click(function(){
-              console.log($(this).data('ident'));
-              require('electron').remote.getGlobal('course').ident = $(this).data('ident');
+              require('electron').remote.getGlobal('params').name = $(this).data('ident');
               window.location.href = 'edit_course.html';
             });
             list.append(item);
