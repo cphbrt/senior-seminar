@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Prediction</title>
+    <script src="scripts/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+  </head>
+  <body>
+    <a href="prediction_list.html">Back to Plans</a>
+    <h1>Prediction</h1>
+
+    <div>
+      <p id="name"></p>
+
+      <p> Semester 1 </p>
+      <ul id="semester-1">
+      </ul>
+
+      <p> Semester 2 </p>
+      <ul id="semester-2">
+      </ul>
+
+      <p> Semester 3 </p>
+      <ul id="semester-3">
+      </ul>
+
+      <p> Semester 4 </p>
+      <ul id="semester-4">
+      </ul>
+
+      <p> Semester 5 </p>
+      <ul id="semester-5">
+      </ul>
+
+      <p> Semester 6 </p>
+      <ul id="semester-6">
+      </ul>
+
+      <p> Semester 7 </p>
+      <ul id="semester-7">
+      </ul>
+
+      <p> Semester 8 </p>
+      <ul id="semester-8">
+      </ul>
+    </div>
+
+    <div>
+      <button id="predict">Predict</button>
+    </div>
+
+    <script>
+      require('./renderer.js');
+      var storage = require("./storage");
+
+      selected = "";
+      semesters = {};
+
+      course_list = null;
+      $(document).ready(function() {
+        for(var i = 1; i < 10; i++)
+        {
+          semesters["semester-" + i] = [];
+
+        }
+
+        selected = require('electron').remote.getGlobal('params').name;
+
+        storage.readData("data.json", function(obj){
+          course_list = obj.class_list;
+
+          plan = storage.getPlan(obj, selected);
+          $("#name").html(plan.name);
+          semesters = plan.semesters;
+          for(semester_key in semesters)
+          {
+            semester_obj = semesters[semester_key];
+            semester_ul = $("#" + semester_key);
+            for(ident_key in semester_obj)
+            {
+              ident = semester_obj[ident_key];
+              name = storage.getClass(obj, ident).name;
+              item = $('<li>' + name + " - " + ident + '</li><input class="count" type="text" value="0"></input>');
+              item.data("ident", ident);
+              item.data("semester", semester_key);
+              semester_ul.append(item);
+            }
+          }
+        });
+
+        $("#predict").click(function() {
+          //chris does cool stuff here
+        });
+      });
+    </script>
+  </body>
+</html>

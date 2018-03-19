@@ -73,7 +73,7 @@
       require('./renderer.js');
       var storage = require("./storage");
 
-      selected =
+      selected = "";
       semesters = {};
 
       course_list = null;
@@ -99,7 +99,8 @@
             for(ident_key in semester_obj)
             {
               ident = semester_obj[ident_key];
-              item = $('<li>' + ident + '</li>');
+              name = storage.getClass(obj, ident).name;
+              item = $('<li>' + name + " - " + ident + '</li>');
               item.data("ident", ident);
               item.data("semester", semester_key);
               item.click(function() {
@@ -142,7 +143,7 @@
               if(!found)
               {
                 item = $("<option/>", { value: c.ident,
-                  html: c.ident });
+                  html: c.name + " - " + c.ident });
                 course_select.append(item);
               }
 
@@ -156,11 +157,12 @@
             semester = $("option:selected", semester_select).val();
             course_select = $("#course_select");
             ident = $("option:selected", course_select).val();
+            name = $("option:selected", course_select).html();
             if(ident)
             {
               semester_ul_id = "#" + semester;
               semester_ul = $(semester_ul_id);
-              item = $('<li>' + ident + '</li>');
+              item = $('<li>' + name + " - " + ident + '</li>');
               item.data("ident", ident);
               item.data("semester", semester);
               item.click(function() {
