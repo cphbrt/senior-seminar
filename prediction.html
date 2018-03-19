@@ -90,29 +90,58 @@
         });
 
         $("#predict").click(function() {
-          //chris does cool stuff here
-          var prediction_algorithm = require( './prediction-algorithm.js' );
-          var predict = prediction_algorithm.predict;
-          
-          var course_ids = [];
-          var degree_plans = [];
-          var enrollments = [];
-          
-          console.log("before prediction");
-          
-          var result = predict( course_ids, degree_plans, enrollments );
-          
-          console.log("after prediction");
-          
-          // print result data
-          for(var iteration=0 ; iteration < result.length; iteration++) {
-              console.log("\nITERATION " + iteration + "\n");
-              for(var id in result[iteration]) {
-                  console.log("id: "+id + ", sum: "+result[iteration][id]);
-              }
-          }
+          // Step One of Prediction
+          storage.readData("data.json", function(obj) {
+            // leads to Step Two of Prediction
+            finish(obj.class_list, obj.plan_list);
+          });
         });
       });
+      
+      function finish(class_list, plan_list) {
+        // Step Two of Prediction
+        
+        var course_ids = [];
+        for(var key in class_list) course_ids.push(class_list[key].ident);
+        console.log(JSON.stringify(course_ids));
+        
+        // NOTE: This is hardcoded to get a standard 8 semesters from the degree
+        // plan. The code in prediction-algorithm .js (at present) is flexible
+        // enough to automatically handle more or fewer semesters. That may be
+        // useful for grad programs or some such.
+        var degree_plans = [];
+        for(var key in plan_list) {
+          var p = plan_list[key];
+          var dp = { degree_plan_id : p.name , semesters : [] };
+          for(var i=1; i<=8; i++) {
+            dp.semesters.push(p.semesters["semester-"+i].slice());
+          }
+        }
+        console.log(JSON.stringify(dp));
+        
+        // TODO: Get enrollments from form above.
+        
+        var enrollments = [];
+        
+        
+        
+        
+        
+        
+        console.log("before prediction");
+        var prediction_algorithm = require( './prediction-algorithm.js' );
+        var predict = prediction_algorithm.predict;
+        var result = predict( course_ids, degree_plans, enrollments );
+        console.log("after prediction");
+        
+        // print result data
+        for(var iteration=0 ; iteration < result.length; iteration++) {
+            console.log("\nITERATION " + iteration + "\n");
+            for(var id in result[iteration]) {
+                console.log("id: "+id + ", sum: "+result[iteration][id]);
+            }
+        }
+      }
     </script>
   </body>
 </html>
