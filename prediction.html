@@ -105,8 +105,8 @@
           for(var i=1; i<=8; i++) {
             dp.semesters.push(p.semesters["semester-"+i].slice());
           }
+          degree_plans.push(dp);
         }
-        degree_plans.push(dp);
         console.log(JSON.stringify(degree_plans));
         
         var enrollments = [];
