@@ -25,6 +25,10 @@
       
     </div>
     <button id="enrollment-button" hidden>Predict</button>
+    
+    <div id="results-container" hidden>
+      
+    </div>
 
     <script>
       require('./renderer.js');
@@ -116,16 +120,14 @@
           var plan_div = $("#plan-div-"+i);
           for(var j=8; j > 1 - num_future_semesters ; j--) {
             var input = $("#plan-div-" + i + "-input-enrolled-semester-" + j);
-            enrollment.enrollments_descending_semesters.push(input.val());
+            enrollment.enrollments_descending_semesters.push(Number(input.val()));
           }
           
           enrollments.push(enrollment);
         }
         console.log(JSON.stringify(enrollments));
         
-        console.log("before prediction");
         var result = predict( course_ids, degree_plans, enrollments );
-        console.log("after prediction");
         
         // print result data
         for(var iteration=0 ; iteration < result.length; iteration++) {
@@ -134,6 +136,24 @@
                 console.log("id: "+id + ", sum: "+result[iteration][id]);
             }
         }
+        
+        $("#enrollment-container").hide();
+        $("#enrollment-button").hide();
+        
+        // NOTE: prediction-algorithm.js (currently) returns more iterations
+        // than you need. Only report those that the user asked for.
+        var results_div = $("#results-container");
+        
+        for(var i=0; i<num_future_semesters; i++) {
+          results_div.append($("<h2>Semester "+(i+1)+"</h2>"));
+          var ul = $("<ul></ul>");
+          for(var id in result[i]) {
+            ul.append($("<li>" + id + " : " + result[i][id] + "</li>"));
+          }
+          results_div.append(ul);
+        }
+        
+        results_div.show();
       }
     </script>
   </body>
