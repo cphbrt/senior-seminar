@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
+	  <link rel="stylesheet" type="text/css" href="main.css">
     <meta charset="UTF-8">
     <title>Index</title>
   </head>
   <body>
+	  <div class="top">
     <h1>Index</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    <!-- We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>. -->
-
-    <ul>
+	  </div>
+<div id="menu-outer">
+	<div class="table">
+    <ul id="horizontal-list">
       <li>
         <a href="courses.html">Courses</a>
       </li>
@@ -22,7 +22,8 @@
         <a href="prediction.html">Prediction</a>
       </li>
     </ul>
-
+	</div>
+	  </div>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
