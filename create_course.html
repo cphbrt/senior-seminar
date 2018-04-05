@@ -7,25 +7,51 @@
     <script src="scripts/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
   </head>
   <body>
-	  <div class="top">
-    <a href="courses.html">Back to Courses</a>
-    <h1>Create Courses</h1>
+	  	<div class="buffer"></div>
+    	<div class="nav">
+    	<ul>
+      		<li>
+        		<a href="courses.html">Courses</a>
+      		</li>
+      		<li>
+        		<a href="degree-plans.html">Degree Plans</a>
+      		</li>
+      		<li>
+        		<a href="prediction.html">Prediction</a>
+      		</li>
+    	</ul>
+	</div>
+	<div>
+      <div style="padding-bottom:5px">
+		  <label>Course Title</label>
+		  <br>
+      <input id="name" type="text" placeholder="Intro to Comp Sci" style="width:50%"></input>
 	  </div>
-    <div>
-      <p> Course Title: </p>
-      <input id="name" type="text" placeholder="Intro to Comp Sci"></input> <br>
-      <p> Course Identifier: </p>
-      <input id="ident" type="text" placeholder="CS 1122"></input> <br>
+	  <br>
+	  	  <div style="width:auto">
+	  <div style="float:left">
+	  <label>Major</label>
+		  <br>
+      <input id="major" type="text" placeholder="CS" style="width:50%"></input>
+	  </div>
+	  <div style="float:left">
+		  <label>Identifier</label>
+		  <br>
+	  <input id="ident" type="text" placeholder="1122" style="width:100%"></input> 
+	  </div>
+      </div>
+	  <div class="buffer"></div>
+	
+	 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for prereq.." style="float:left; width:40%">
+	 <br>
+      <p> Unselected Prereqs </p>
+      <ul id="unselected" class="myUL" style="float:left">
+      </ul>
 
       <p> Prereqs </p>
-      <ul id="prereqs">
+      <ul id="prereqs" class="myUL" style="float:left">
       </ul>
-
-      <p> Unselected Prereqs </p>
-      <ul id="unselected">
-      </ul>
-    </div>
-
+      </div>
     <div>
       <button id="save">Save</button>
       <a href="courses.html"><button>Cancel</button></a>
@@ -108,6 +134,27 @@
         });
       });
 
+		
+		function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementsByClassName('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementsByClassName("myUL");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+		
+		
     </script>
   </body>
 </html>

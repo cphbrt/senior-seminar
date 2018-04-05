@@ -1,62 +1,91 @@
-.top{
-	background-color: #6a1b9a;
-	color: white;
-	margin-bottom:10px;
-}
+/*navigation for top of page*/
 
-h1 {
-	border: 10px,0px,0px,0px;
-	padding: 10px;
-	margin-top:-10px;
-	margin-bottom:-5px;
-	line-height: 60px;
-	font-family: sans-serif;
+.nav {
 	
 }
 
+.nav ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #6a1b9a;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.nav li {
+	float: left;
+}
+
+.nav li a{
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:hover:not(.active) {
+	background-color: #9b4dbc;
+}
+
+nav.active {
+	background-color: #37006a;
+}
+
+.buffer { margin:60px 0px 0px 0px;}
+
+
 body{
 	height: 100%;
-	margin:0;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	margin:0;
 	background-image: url('img/lipscomb_logo.png'), linear-gradient(#A9A9A9,white);
 	background-size:contain;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: center;
+	padding: 0px;
+	margin-top:0px;
+	height:auto;
 }
+
 
 html {
 	height: 100%;
 }
-
-a{
-	text-decoration: none;
-	color: white;
+/*search tables css*/
+.myInput {
+    background-image: url('/img/mag.png');
+    background-position: 10px 12px;
+    background-repeat: no-repeat;
+    width: 100%;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
 }
 
-#menu-outer {
-	height: 84px;
-	background: url(images/bar-bg.jpg) repeat-x;
+.myUL {
+    list-style-type: none;
+    padding: 5px;
+    margin: 0;
+	width:40%;
 }
 
-.table {
-	display: table;   /* Allow the centering to work */
-	margin: 0 auto;
+.myUL li {
+    border: 1px solid #ddd;
+    margin-top: -1px;
+    background-color: #f6f6f6;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block;
 }
 
-ul#horizontal-list {
-	list-style: none;
-	padding-top: 0px;
-}
-
-ul#horizontal-list li {
-		display: inline;
-		margin: 30px;
-		border: 300px;
-		padding: 11px;
-		background-color:#9b4dbc;
-		font-size: 30px;
-		border-radius:100%;
+.myUL li :hover:not(.header) {
+    background-color: #eee;
+	color: #eee;
 }
