@@ -90,3 +90,9 @@ html {
 .myUL li :hover:not(.header) {
 
 }
+
+.searchbar {
+	float:left; 
+	width:40%;
+	margin-bottom:10px;
+}
