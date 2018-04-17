@@ -26,17 +26,18 @@
       <input id="name" type="text" placeholder="Intro to Comp Sci"></input> <br>
       <p> Course Identifier: </p>
       <input id="ident" type="text" placeholder="CS 1122"></input> <br>
-
-      <p> Prereqs </p>
-      <ul id="prereqs">
-      </ul>
-
-      <p> Unselected Prereqs </p>
-      <ul id="unselected">
-      </ul>
+		<br>
+		<div style="clear:left">
+			<label style="padding-right:calc(40% - 6em)">Unselected Prereqs</label><label>Prereqs</label>
+			<br>
+			<ul id="unselected" class="myUL" style="float:left">
+			</ul>
+		</div>
+		<ul id="prereqs" class="myUL" style="float:left">
+		</ul>
     </div>
 
-    <div>
+    <div style="clear:left">
       <button id="save">Save</button>
       <a href="courses.html"><button>Cancel</button></a>
       <button id="delete">Delete</button>

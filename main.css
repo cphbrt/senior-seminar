@@ -72,6 +72,8 @@ html {
     padding: 5px;
     margin: 0;
 	width:40%;
+	overflow-y:auto;
+	max-height:55vh;
 }
 
 .myUL li {
@@ -86,6 +88,5 @@ html {
 }
 
 .myUL li :hover:not(.header) {
-    background-color: #eee;
-	color: #eee;
+
 }
