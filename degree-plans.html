@@ -23,6 +23,7 @@
 	</div>
     <div>
       Degree Plan List
+      <input id="search" type="text" placeholder="Computer Science ..."></input>
     <ul id="plan_list">
     <ul>
     </div>
@@ -33,10 +34,12 @@
       // You can also require other files to run in this process
       require('./renderer.js')
 
+      var search = require("./search");
+
       var storage = require("./storage");
       $(document).ready(function() {
+        list = $("#plan_list");
         storage.readData("data.json", function(obj) {
-          list = $("#plan_list");
           plan_list = obj.plan_list;
           for(key in plan_list) {
             p = plan_list[key];
@@ -49,6 +52,10 @@
             list.append(item);
           }
         });
+
+        searchBox = $("#search");
+        search.register(searchBox, list, ["name"], true);
+
       });
     </script>
   </body>

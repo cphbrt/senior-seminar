@@ -23,23 +23,28 @@
 	</div>
     <div>
     Course List
+    <input id="search" type="text" placeholder="Intro to"></input>
     <ul id="class_list">
     <ul>
     </div>
 
     <div>
-      <a href="create_course.html"><button>Create </button></a>
+      <button id="create">Create </button>
     </div>
 
     <script>
       // You can also require other files to run in this process
       require('./renderer.js');
 
+      var elec = require("electron");
+      var search = require("./search");
+
       var storage = require("./storage");
       $( document ).ready(function() {
+        list = $("#class_list");
+
         // insert list of courses
         storage.readData("data.json", function(obj) {
-          list = $("#class_list");
           class_list = obj.class_list;
           for(key in class_list)
           {
@@ -47,8 +52,10 @@
             item = $('<li><strong>' + c.name + '</strong>  ' + c.ident + '</li>');
             //console.log("key: " + key + " ident: " + c.ident);
             item.data('ident', c.ident);
+            item.data('name', c.name);
+
             item.click(function(){
-              require('electron').remote.getGlobal('params').name = $(this).data('ident');
+              elec.remote.getGlobal('params').name = $(this).data('ident');
               window.location.href = 'edit_course.html';
             });
             list.append(item);
@@ -56,6 +63,15 @@
           }
 
         });
+
+        searchBox = $("#search");
+        search.register(searchBox, list, ["ident","name"], true);
+
+        $("#create").click(function() {
+          elec.remote.getGlobal("params").name = null;
+          window.location.href = 'edit_course.html';
+        });
+
       });
     </script>
   </body>

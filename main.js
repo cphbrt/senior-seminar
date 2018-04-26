@@ -12,7 +12,7 @@ const url = require('url')
 let mainWindow
 
 global.params = {
-  name: ''
+  name: null
 }
 
 function createWindow () {
