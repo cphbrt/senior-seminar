@@ -87,7 +87,7 @@ $( document ).ready(function() {
 
         prereqArray = getPrereqArray();
 
-        storage.updateClass(obj, name, name, ident, prereqArra);
+        storage.updateClass(obj, name, name, ident, prereqArray);
         storage.saveData("data.json", obj, function(){
           window.location.href = 'courses.html';
         });
