@@ -26,6 +26,10 @@ electron-packager .
 
 Copy the data from `/Users/<your-username>/Library/Application Support/ClassSizePredictor/data.json` to the corresponding file for the other user's installation.
 
+### For Windows
+
+Copy the data from `%APPDATA%/ClassSizePredictor/data.json` to the corresponding file for the other's installation.
+
 ### For Linux
 
 Copy the data from `~/.config/ClassSizePredictor/data.json` to the corresponding file for the other user's installation.
