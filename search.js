@@ -47,6 +47,48 @@ module.exports = {
 
     });
 
+  },
+
+  registerTable: function(field, table, data, tolower)
+  {
+    field.on("input", function() {
+      text = $(this).val();
+
+      if(tolower) {
+        text = text.toLowerCase();
+      }
+
+      table.children("tr").each(function() {
+        found = false;
+        for(key in data) {
+          name = data[key];
+          value = $(this).data(name);
+
+          if(!value) {
+            found = true;
+            continue;
+          }
+
+          if(tolower) {
+              value = value.toLowerCase();
+          }
+
+          if(value.includes(text)) {
+            found = true;
+            break;
+          }
+        }
+
+        if(found) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+
+      });
+
+    });
+
   }
 
 };
