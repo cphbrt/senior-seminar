@@ -30,16 +30,26 @@
     
     
     <div id="enrollment-container" hidden>
-      <p>The students in the 0th semester will begin their first semester next
-        semester. Students in the -1th semester will begin their first semester
-        in two semesters, et cetera.
-      </p>
+      <p>Enter the number of students in the specified semester of each major.</p>
       
+      <div class="horizontal-scroll">
+        <table id="enrollment-scroll-table">
+          
+        </table>
+      </div>
     </div>
     <button id="enrollment-button" hidden>Predict</button>
     
     <div id="results-container" hidden>
-      
+      <p>
+        The number of students that will be enrolled in each course during the 
+        specified semester.
+      </p>
+      <div class="horizontal-scroll">
+        <table id="results-scroll-table">
+          
+        </table>
+      </div>
     </div>
 
     <script>
@@ -80,21 +90,35 @@
       function create_prediction_form(plan_list) {
         enrollment_form = $("#enrollment-container");
         
+        var table = $("#enrollment-scroll-table");
+        var tr = $('<tr/>');
+        for(var i = (-1 * num_future_semesters) ; i<=8 ; i++) {
+          if(i == -1 * num_future_semesters) {
+            tr.append( $('<th/>') );
+            continue;
+          }
+          if(i < 1) {
+            tr.append( $('<th>students beginning in ' + ((i - 1) * -1) + ' semesters</th>') );
+            continue;
+          }
+          tr.append( $('<th>students currently in their ' + i + ' semester</th>') );
+        }
+        table.append(tr);
+        
         var i = 0;
         for(var key in plan_list) {
           var plan = plan_list[key];
           
-          var plan_div = $('<div/>', { id : "plan-div-" + i } );
+          var plan_tr = $('<tr/>', { id : "plan-tr-" + i } );
           plan_arr[i] = plan.name;
-          
-          plan_div.append( $('<h2>' + plan.name + '</h2>') );
-          
-          // now for 8 semesters + however many future semesters
-          for(var j=8; j > 1 - num_future_semesters ; j--) {
-            plan_div.append( $('<br>Number of students currently enrolled in their ' + j + 'th semester: <input id="plan-div-' + i + '-input-enrolled-semester-' + j + '" type="number" value="0"></input>') );
+        
+          plan_tr.append( $('<th>' + plan.name + '</th>') );
+        
+          for(var j = (-1 * num_future_semesters + 1) ; j<=8 ; j++) {
+            plan_tr.append( $('<td><input id="plan-tr-' + i + '-input-enrolled-semester-' + j + '" type="number" value="0"></input></td>') );
           }
-          
-          enrollment_form.append(plan_div);
+        
+          table.append(plan_tr);
           i++;
         }
       }
@@ -129,9 +153,8 @@
             enrollments_descending_semesters : []
           };
           
-          var plan_div = $("#plan-div-"+i);
-          for(var j=8; j > 1 - num_future_semesters ; j--) {
-            var input = $("#plan-div-" + i + "-input-enrolled-semester-" + j);
+          for(var j=8; j >= 1 - num_future_semesters ; j--) {
+            var input = $("#plan-tr-" + i + "-input-enrolled-semester-" + j);
             enrollment.enrollments_descending_semesters.push(Number(input.val()));
           }
           
@@ -155,14 +178,25 @@
         // NOTE: prediction-algorithm.js (currently) returns more iterations
         // than you need. Only report those that the user asked for.
         var results_div = $("#results-container");
-        
-        for(var i=0; i<num_future_semesters; i++) {
-          results_div.append($("<h2>Semester "+(i+1)+"</h2>"));
-          var ul = $("<ul></ul>");
-          for(var id in result[i]) {
-            ul.append($("<li>" + id + " : " + result[i][id] + "</li>"));
+        var results_table = $("#results-scroll-table");
+        var results_tr = $('<tr/>');
+        results_tr.append($('<th/>'));
+        for(var i=num_future_semesters; i >= 0; i--) {
+          if(i == 0) {
+            results_tr.append($('<th>current semester</th>'));
+            continue;
           }
-          results_div.append(ul);
+          results_tr.append($('<th>'+i+' semesters from now</th>'));
+        }
+        results_table.append(results_tr);
+        
+        for(var id in result[0]) {
+          var results_tr = $('<tr/>');
+          results_tr.append( $('<th>'+id+'</th>'));
+          for(var i=num_future_semesters; i >= 0; i--) {
+            results_tr.append( $('<td>'+result[i][id] + '</td>') );
+          }
+          results_table.append(results_tr);
         }
         
         results_div.show();

@@ -1,9 +1,9 @@
 
 module.exports = {
-    predict : predict02
+    predict : predict01
 }
 
-function predict02( course_ids, degree_plans, enrollments ) {
+function predict01( course_ids, degree_plans, enrollments ) {
     // NOTE: Assumes that each degree plan has same amount of enrollment info
     var semesters_of_dp_enrollment_info = 0;
     if( enrollments.length > 0 ) {
