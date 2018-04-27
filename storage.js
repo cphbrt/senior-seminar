@@ -1,18 +1,18 @@
 var fs = require('fs');
-var p = require('path');
 var electron = require('electron');
 
 module.exports = {
-    
+
 getPath: function(path)
 {
     userPath = (electron.app || electron.remote.app).getPath("userData");
+    var p = require('path');
     return p.join(userPath, path);
 },
 
 readData: function(path, callback)
 {
-  path = this.getPath(path);
+  path = module.exports.getPath(path);
   fs.readFile(path, 'utf8', function(error, data) {
     if(error)
     {
@@ -33,7 +33,7 @@ readData: function(path, callback)
 
 saveData: function(path, obj, callback)
 {
-  path = this.getPath(path);
+  path = module.exports.getPath(path);
   data = JSON.stringify(obj);
   fs.writeFile(path, data, 'utf8', function(error) {
     if(error)
