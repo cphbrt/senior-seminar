@@ -153,7 +153,6 @@
             enrollments_descending_semesters : []
           };
           
-          // var plan_tr = $("#plan-tr-"+i);
           for(var j=8; j >= 1 - num_future_semesters ; j--) {
             var input = $("#plan-tr-" + i + "-input-enrolled-semester-" + j);
             enrollment.enrollments_descending_semesters.push(Number(input.val()));
