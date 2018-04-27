@@ -89,3 +89,13 @@ html {
     background-color: #eee;
 	color: #eee;
 }
+
+.horizontal-scroll {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+th, td {
+	padding: 15px;
+	margin: 15px;
+}
