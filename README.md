@@ -40,6 +40,13 @@ Inside repository:
 electron-packager .
 ```
 
+## Copying Data.json (for Mac)
+
+If you want the mock data in the `data.json` file to show up when you run the app, copy the contents of the repository's `data.json` file into:
+`/Users/<your-username>/Library/Application Support/ClassSizePredictor/data.json`
+
+Next time you open ClassSizePredictor, it will have all the data preloaded.
+
 ## API for Prediction Algorithm
 
 
