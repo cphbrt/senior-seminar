@@ -6,13 +6,18 @@ var search = require("./search");
 
 var storage = require("./storage");
 var prereqArray = [];
+datapath = null;
 $( document ).ready(function() {
   selected = elec.remote.getGlobal("params").name;
 
   prereqs = $("#prereqs");
   unselected = $("#unselected");
 
-  storage.readData("data.json", function(obj){
+  storage.readSettings(function(obj) {
+    datapath = storage.getPath(obj.current);
+
+
+  storage.readData(datapath, function(obj){
     course = null;
     prereq_list = null;
     if(selected) {
@@ -72,7 +77,7 @@ $( document ).ready(function() {
 
     }
 
-  });
+  });   });
 
   searchBox = $("#search");
   search.register(searchBox, unselected, ["ident", "name"], true);
@@ -83,12 +88,12 @@ $( document ).ready(function() {
 
     if(name != "" && ident != "") // validate
     {
-      storage.readData("data.json", function(obj){
+      storage.readData(datapath, function(obj){
 
         prereqArray = getPrereqArray();
 
         storage.updateClass(obj, name, name, ident, prereqArray);
-        storage.saveData("data.json", obj, function(){
+        storage.saveData(datapath, obj, function(){
           window.location.href = 'courses.html';
         });
       });
@@ -98,9 +103,9 @@ $( document ).ready(function() {
 
   if(selected) {
     $("#delete").click(function() {
-      storage.readData("data.json", function(obj){
+      storage.readData(datapath, function(obj){
         storage.removeClass(obj, selected);
-        storage.saveData("data.json", obj, function(){
+        storage.saveData(datapath, obj, function(){
           window.location.href = 'courses.html';
         });
       });

@@ -89,6 +89,7 @@
       semesters = {};
 
       course_list = null;
+      datapath = null;
       $(document).ready(function() {
         for(var i = 1; i < 10; i++)
         {
@@ -96,9 +97,12 @@
 
         }
 
+        storage.readSettings(function(obj) {
+          datapath = storage.getPath(obj.current);
+
         selected = require('electron').remote.getGlobal('params').name;
 
-        storage.readData("data.json", function(obj){
+        storage.readData(datapath, function(obj){
           course_list = obj.class_list;
 
           plan = storage.getPlan(obj, selected);
@@ -188,16 +192,16 @@
               semester_select.change();
             }
           });
-        });
+        });         });
 
         $("#save").click(function(){
           name = $("#name").val();
 
           if(name != "") // validate
           {
-            storage.readData("data.json", function(obj){
+            storage.readData(datapath, function(obj){
               storage.updatePlan(obj, selected, name, semesters);
-              storage.saveData("data.json", obj, function(){
+              storage.saveData(datapath, obj, function(){
                 window.location.href = 'degree-plans.html';
               });
             });
@@ -206,9 +210,9 @@
         });
 
         $("#delete").click(function() {
-          storage.readData("data.json", function(obj){
+          storage.readData(datapath, function(obj){
             storage.removePlan(obj, selected);
-            storage.saveData("data.json", obj, function(){
+            storage.saveData(datapath, obj, function(){
               window.location.href = 'degree-plans.html';
             });
           });
