@@ -37,15 +37,9 @@
       var search = require("./search");
 
       var storage = require("./storage");
-
-      datapath = null;
       $(document).ready(function() {
         list = $("#plan_list");
-
-        storage.readSettings(function(obj) {
-          datapath = storage.getPath(obj.current);
-
-        storage.readData(datapath, function(obj) {
+        storage.readData("data.json", function(obj) {
           plan_list = obj.plan_list;
           for(key in plan_list) {
             p = plan_list[key];
@@ -57,7 +51,7 @@
             });
             list.append(item);
           }
-        });   });
+        });
 
         searchBox = $("#search");
         search.register(searchBox, list, ["name"], true);

@@ -3,44 +3,16 @@ var p = require('path');
 var electron = require('electron');
 
 module.exports = {
-
+    
 getPath: function(path)
 {
     userPath = (electron.app || electron.remote.app).getPath("userData");
     return p.join(userPath, path);
 },
 
-readSettings: function(callback) {
-  path = this.getPath("settings.json");
-  defaultPath = this.getPath("data.json");
-  fs.readFile(path, 'utf8', function(error, data) {
-    if(error) {
-      console.log(error);
-      obj = {current: defaultPath,
-        workspaces: []};
-      module.exports.updateSettings(obj);
-      callback(obj);
-    } else {
-      obj = JSON.parse(data);
-      callback(obj);
-    }
-  });
-},
-
-updateSettings: function(data, callback) {
-  path = this.getPath("settings.json");
-  fs.writeFile(path, data, 'utf8', function(error) {
-    if(error) {
-      console.log(error);
-    }
-
-    if(callback) {
-      callback();
-    }
-  });
-},
 readData: function(path, callback)
 {
+  path = this.getPath(path);
   fs.readFile(path, 'utf8', function(error, data) {
     if(error)
     {
@@ -61,6 +33,7 @@ readData: function(path, callback)
 
 saveData: function(path, obj, callback)
 {
+  path = this.getPath(path);
   data = JSON.stringify(obj);
   fs.writeFile(path, data, 'utf8', function(error) {
     if(error)
