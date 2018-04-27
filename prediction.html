@@ -130,8 +130,12 @@
       function finish(class_list, plan_list) {
         // Step Two of Prediction
 
+        var course_names = {};
         var course_ids = [];
-        for(var key in class_list) course_ids.push(class_list[key].ident);
+        for(var key in class_list) {
+          course_names[class_list[key].ident] = class_list[key].name;
+          course_ids.push(class_list[key].ident);
+        }
         console.log(JSON.stringify(course_ids));
 
         // NOTE: This is hardcoded to get a standard 8 semesters from the degree
@@ -196,11 +200,12 @@
 
         for(var id in result[0]) {
           var results_tr = $('<tr/>');
-          results_tr.append( $('<th>'+id+'</th>'));
+          results_tr.append( $('<th>'+id+'<br><small>'+ course_names[id] +'</small></th>'));
           for(var i=num_future_semesters; i >= 0; i--) {
             results_tr.append( $('<td>'+result[i][id] + '</td>') );
           }
           results_tr.data("id", id);
+          results_tr.data("name", course_names[id]);
           results_table.append(results_tr);
         }
 
@@ -208,7 +213,7 @@
 
         searchBox = $("#tablesearch");
         searchBox.show();
-        search.registerTable(searchBox, results_table, ["id"], true);
+        search.registerTable(searchBox, results_table, ["id","name"], true);
 
       }
     </script>
