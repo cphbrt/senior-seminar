@@ -40,11 +40,17 @@
       var search = require("./search");
 
       var storage = require("./storage");
+
+      datapath = null;
+
       $( document ).ready(function() {
         list = $("#class_list");
 
+        storage.readSettings(function(obj) {
+          datapath = storage.getPath(obj.current);
+
         // insert list of courses
-        storage.readData("data.json", function(obj) {
+        storage.readData(datapath, function(obj) {
           class_list = obj.class_list;
           for(key in class_list)
           {
@@ -62,7 +68,7 @@
 
           }
 
-        });
+        }); });
 
         searchBox = $("#search");
         search.register(searchBox, list, ["ident","name"], true);
