@@ -85,8 +85,6 @@
 
       semesters = {};
 
-      datapath = null;
-
       course_list = null;
       $(document).ready(function() {
         for(var i = 1; i < 10; i++)
@@ -95,10 +93,7 @@
 
         }
 
-        storage.readSettings(function(obj) {
-          datapath = storage.getPath(obj.current);
-
-        storage.readData(datapath, function(obj){
+        storage.readData("data.json", function(obj){
           course_list = obj.class_list;
 
           semester_select = $("#semester_select");
@@ -163,16 +158,16 @@
               semester_select.change();
             }
           });
-        }); });
+        });
 
         $("#save").click(function(){
           name = $("#name").val();
 
           if(name != "") // validate
           {
-            storage.readData(datapath, function(obj){
+            storage.readData("data.json", function(obj){
               storage.updatePlan(obj, name, name, semesters);
-              storage.saveData(datapath, obj, function(){
+              storage.saveData("data.json", obj, function(){
                 window.location.href = 'degree-plans.html';
               });
             });

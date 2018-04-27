@@ -27,27 +27,27 @@
       <input id="num-future-semesters-input" class="count" type="text" value="1"></input>
       <button id="num-future-semesters-button">Next Step</button>
     </div>
-
-
+    
+    
     <div id="enrollment-container" hidden>
       <p>Enter the number of students in the specified semester of each major.</p>
-
+      
       <div class="horizontal-scroll">
         <table id="enrollment-scroll-table">
-
+          
         </table>
       </div>
     </div>
     <button id="enrollment-button" hidden>Predict</button>
-
+    
     <div id="results-container" hidden>
       <p>
-        The number of students that will be enrolled in each course during the
+        The number of students that will be enrolled in each course during the 
         specified semester.
       </p>
       <div class="horizontal-scroll">
         <table id="results-scroll-table">
-
+          
         </table>
       </div>
     </div>
@@ -57,43 +57,39 @@
       var storage = require("./storage");
       var prediction_algorithm = require( './prediction-algorithm.js' );
       var predict = prediction_algorithm.predict;
-
+      
       var plan_arr = [];
       var num_future_semesters = 1;
-      datapath = null;
+      
       $(document).ready(function() {
-
-        storage.readSettings(function(obj) {
-          datapath = storage.getPath(obj.current);
-        });
-
+        
         $("#num-future-semesters-button").click(function() {
           $("#num-future-semesters-div").hide();
-
+          
           // TODO: Ensure number of future semesters is always 1 or greater.
-
-          storage.readData(datapath, function(obj) {
+          
+          storage.readData("data.json", function(obj) {
             num_future_semesters = $("#num-future-semesters-input").val();
             create_prediction_form(obj.plan_list);
           });
-
+          
           $("#enrollment-container").show();
           $("#enrollment-button").show();
         });
 
         $("#enrollment-button").click(function() {
           // Step One of Prediction
-          storage.readData(datapath, function(obj) {
+          storage.readData("data.json", function(obj) {
             // leads to Step Two of Prediction
             finish(obj.class_list, obj.plan_list);
           });
         });
-
+        
       });
-
+      
       function create_prediction_form(plan_list) {
         enrollment_form = $("#enrollment-container");
-
+        
         var table = $("#enrollment-scroll-table");
         var tr = $('<tr/>');
         for(var i = (-1 * num_future_semesters) ; i<=8 ; i++) {
@@ -108,32 +104,32 @@
           tr.append( $('<th>students currently in their ' + i + ' semester</th>') );
         }
         table.append(tr);
-
+        
         var i = 0;
         for(var key in plan_list) {
           var plan = plan_list[key];
-
+          
           var plan_tr = $('<tr/>', { id : "plan-tr-" + i } );
           plan_arr[i] = plan.name;
-
+        
           plan_tr.append( $('<th>' + plan.name + '</th>') );
-
+        
           for(var j = (-1 * num_future_semesters + 1) ; j<=8 ; j++) {
             plan_tr.append( $('<td><input id="plan-tr-' + i + '-input-enrolled-semester-' + j + '" type="number" value="0"></input></td>') );
           }
-
+        
           table.append(plan_tr);
           i++;
         }
       }
-
+      
       function finish(class_list, plan_list) {
         // Step Two of Prediction
-
+        
         var course_ids = [];
         for(var key in class_list) course_ids.push(class_list[key].ident);
         console.log(JSON.stringify(course_ids));
-
+        
         // NOTE: This is hardcoded to get a standard 8 semesters from the degree
         // plan. The code in prediction-algorithm .js (at present) is flexible
         // enough to automatically handle more or fewer semesters. That may be
@@ -148,26 +144,26 @@
           degree_plans.push(dp);
         }
         console.log(JSON.stringify(degree_plans));
-
+        
         var enrollments = [];
-
+        
         for(var i=0; i<plan_arr.length;i++) {
           var enrollment = {
             degree_plan_id : plan_arr[i],
             enrollments_descending_semesters : []
           };
-
+          
           for(var j=8; j >= 1 - num_future_semesters ; j--) {
             var input = $("#plan-tr-" + i + "-input-enrolled-semester-" + j);
             enrollment.enrollments_descending_semesters.push(Number(input.val()));
           }
-
+          
           enrollments.push(enrollment);
         }
         console.log(JSON.stringify(enrollments));
-
+        
         var result = predict( course_ids, degree_plans, enrollments );
-
+        
         // print result data
         for(var iteration=0 ; iteration < result.length; iteration++) {
             console.log("\nITERATION " + iteration + "\n");
@@ -175,10 +171,10 @@
                 console.log("id: "+id + ", sum: "+result[iteration][id]);
             }
         }
-
+        
         $("#enrollment-container").hide();
         $("#enrollment-button").hide();
-
+        
         // NOTE: prediction-algorithm.js (currently) returns more iterations
         // than you need. Only report those that the user asked for.
         var results_div = $("#results-container");
@@ -193,7 +189,7 @@
           results_tr.append($('<th>'+i+' semesters from now</th>'));
         }
         results_table.append(results_tr);
-
+        
         for(var id in result[0]) {
           var results_tr = $('<tr/>');
           results_tr.append( $('<th>'+id+'</th>'));
@@ -202,7 +198,7 @@
           }
           results_table.append(results_tr);
         }
-
+        
         results_div.show();
       }
     </script>
