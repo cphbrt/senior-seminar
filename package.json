@@ -1,5 +1,5 @@
 {
-  "name": "Class Size Predictor",
+  "name": "ClassSizePredictor",
   "version": "1.0.0",
   "description": "Predicts size of future classes.",
   "main": "main.js",
