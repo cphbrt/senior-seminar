@@ -86,8 +86,7 @@ html {
 }
 
 .myUL li :hover:not(.header) {
-    background-color: #eee;
-	color: #eee;
+	color: #6a1b9a;
 }
 
 .horizontal-scroll {
@@ -98,4 +97,10 @@ html {
 th, td {
 	padding: 15px;
 	margin: 15px;
+}
+
+.searchbar {
+	float:left; 
+	width:40%;
+	margin-bottom:10px;
 }

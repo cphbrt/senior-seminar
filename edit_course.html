@@ -22,42 +22,27 @@
     	</ul>
 	</div>
 	<div>
-      <div style="padding-bottom:5px">
-		  <label>Course Title</label>
-		  <br>
-      <input id="name" type="text" placeholder="Intro to Comp Sci" style="width:50%"></input>
-	  </div>
-	  <br>
-	  	  <div style="width:auto">
-	  <!--<div style="float:left">
-	  <label>Major</label>
-		  <br>
-      <input id="major" type="text" placeholder="CS" style="width:50%"></input>
-	  </div>-->
-	  <div style="float:left">
-		  <label>Identifier</label>
-		  <br>
-	  <input id="ident" type="text" placeholder="1122" style="width:100%"></input>
-	  </div>
-      </div>
-	  <div class="buffer"></div>
+            <p> Course Title: </p>
+      <input id="name" type="text" placeholder="Intro to Comp Sci"></input> <br>
+      <p> Course Identifier: </p>
+      <input id="ident" type="text" placeholder="1122"></input> <br>
+		<br>
+		<input id="search" type="text" placeholder="Search...">
+		<div style="clear:left">
+			<label style="padding-right:calc(40% - 6em)">Unselected Prereqs</label><label>Prereqs</label>
+			<br>
+			<ul id="unselected" class="myUL" style="float:left">
+			</ul>
+		</div>
+		<ul id="prereqs" class="myUL" style="float:left">
+		</ul>
+    </div>
 
-  <input id="search" type="text" placeholder="Intro to ...">
-	 <br>
-      <p> Unselected Prereqs </p>
-      <ul id="unselected" class="myUL" style="float:left">
-      </ul>
-
-      <p> Prereqs </p>
-      <ul id="prereqs" class="myUL" style="float:left">
-      </ul>
-      </div>
-    <div>
+    <div style="clear:left">
       <button id="save">Save</button>
       <a href="courses.html"><button>Cancel</button></a>
       <button id="delete">Delete</button>
     </div>
-
     <script src="scripts/edit_course.js"></script>
   </body>
 </html>
