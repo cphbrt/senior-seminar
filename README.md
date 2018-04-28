@@ -9,13 +9,15 @@ npm start
 
 ## Build for Distribution
 
+In order to get a distributable `.app` or `.exe` file, perform the following steps on a machine with your target OS.
+
 Get [Electron Packager](https://www.npmjs.com/package/electron-packager):
 ``` 
 # for use from cli 
 npm install electron-packager -g
 ```
 
-Inside repository:
+Inside ClassSizePredictor repository:
 ```
 electron-packager .
 ```
