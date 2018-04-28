@@ -1,8 +1,10 @@
 # CCT-4053: Senior Seminar
 
-## Install and Run
+## Install and Run for Development
 
 ```
+git clone <repository>
+cd <repository>
 npm install
 npm start
 ```
