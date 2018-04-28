@@ -63,6 +63,19 @@
       var plan_arr = [];
       var num_future_semesters = 1;
 
+      function makeCardinalNumber(num) {
+        str = num.toString();
+        last_char = str.slice(-1);
+        if(last_char == "1") {
+          return str + "st";
+        } else if(last_char == "2") {
+          return str + "nd";
+        } else if(last_char == "3") {
+          return str + "rd";
+        }
+        return num + "th";
+      }
+
       $(document).ready(function() {
 
         $("#tablesearch").hide();
@@ -105,7 +118,7 @@
             tr.append( $('<th>students beginning in ' + ((i - 1) * -1) + ' semesters</th>') );
             continue;
           }
-          tr.append( $('<th>students currently in their ' + i + ' semester</th>') );
+          tr.append( $('<th>students currently in their ' + makeCardinalNumber(i) + ' semester</th>') );
         }
         table.append(tr);
 
